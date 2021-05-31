@@ -6,6 +6,13 @@
         <DataTitle :text="title" :dataDate="dataDate" />
         <DataBoxes :stats="stats" />
         <CountrySelect :countries="countries" @get-country="getCountryData" />
+        <button
+          v-if="stats.Country"
+          class="bg-green-700 text-white rounded p-3 mt-10 focus:outline-none hover:bg-green-600"
+          @click="clearCountryData"
+        >
+          Clear Country
+        </button>
       </main>
       <main
         v-else

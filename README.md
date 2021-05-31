@@ -6,4 +6,6 @@ Original code repo: [https://github.com/bradtraversy/vue-covid-tracker](https://
 
 [Day.js](https://github.com/iamkun/dayjs) used for Moment.js alternative.
 
+Live Demo: []()
+
 Created with ⚡ [Vite](https://vitejs.dev/)
