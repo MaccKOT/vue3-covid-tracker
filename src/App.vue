@@ -1,52 +1,89 @@
 <template>
-  <div class="container">
+  <div>
     <Header />
-    <main v-if="!loading">
-      show data
-    </main>
-    <main v-else class="flex flex-col align-center justify-center text-center">
-      <div class="text-gray-500 text-3xl mt-10 mb-6">Fetching data...</div>
-      <img :src="loadingImage" class="w-24 m-auto">
-    </main>
+    <div class="container">
+      <main v-if="!loading">
+        <DataTitle :text="title" :dataDate="dataDate" />
+        <DataBoxes :stats="stats" />
+        <CountrySelect :countries="countries" @get-country="getCountryData" />
+      </main>
+      <main
+        v-else
+        class="flex flex-col align-center justify-center text-center"
+      >
+        <div class="text-gray-500 text-3xl mt-10 mb-6">Fetching data...</div>
+        <img :src="loadingImage" class="w-24 m-auto" />
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
-
 import Header from "./components/Header.vue";
-import Hourglass from './assets/hourglass.gif'
+import Hourglass from "./assets/hourglass.gif";
+import DataTitle from "./components/DataTitle.vue";
+import DataBoxes from "./components/DataBoxes.vue";
+import CountrySelect from "./components/CountrySelect.vue";
+import { ref } from "vue";
 
 export default {
   components: {
     Header,
+    DataTitle,
+    DataBoxes,
+    CountrySelect,
   },
+
   data() {
     return {
-      loading: true,
-      title: 'Global',
-      dataDate: '',
-      stats: {},
-      countries: [],
-      loadingImage: Hourglass
-    }
+      loadingImage: Hourglass,
+    };
   },
-  methods: {
-    async fetchCovidData() {
-      const res = await fetch("https://api.covid19api.com/summary");
-      const data = await res.json();
-      return data;
-    },
-  },
-  async created() {
-    const data = await this.fetchCovidData();
-    //console.log(data);
-    this.dataDate = data.dataDate
-    this.stats = data.Global
-    this.countries = data.Countries
-    this.loading = false
 
+  setup() {
+    const loading = ref(true);
+    const title = ref("Global");
+    const dataDate = ref("");
+    const stats = ref({});
+    const countries = ref([]);
+
+    const fetchCovidData = async () => {
+      const res = await fetch("https://api.covid19api.com/summary");
+      return await res.json();
+    };
+
+    const getCountryData = (country) => {
+      stats.value = country;
+      title.value = country.Country;
+    };
+
+    const clearCountryData = async () => {
+      loading.value = true;
+      const data = await fetchCovidData();
+      title.value = "Global";
+      stats.value = data.Global;
+      loading.value = false;
+    };
+
+    const baseSetup = async () => {
+      const data = await fetchCovidData();
+      dataDate.value = data.Date;
+      stats.value = data.Global;
+      countries.value = data.Countries;
+      loading.value = false;
+    };
+
+    baseSetup();
+
+    return {
+      loading,
+      title,
+      dataDate,
+      stats,
+      countries,
+      getCountryData,
+      clearCountryData,
+    };
   },
 };
 </script>

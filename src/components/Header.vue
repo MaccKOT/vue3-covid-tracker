@@ -1,7 +1,10 @@
 <template>
   <header class="text-center bg-blue-800 text-white p-4 mb-10">
-    <div class="text-3xl md:text-5xl font-bold mb-3">
-           Covid-19 Tracker
+    <div
+      class="text-3xl md:text-5xl font-bold mb-3 flex flex-row justify-center items-center text-center gap-5"
+    >
+      <img :src="logopath" width="110" />
+      Covid-19 Tracker
     </div>
     <p>
       API by
@@ -11,10 +14,14 @@
 </template>
 
 <script>
-//import Logo from '../assets/covid-19.svg'
+import Logo from "../assets/covid-19.png";
 
 export default {
-  name: 'Header',
-  
+  name: "Header",
+  data() {
+    return {
+      logopath: Logo,
+    };
+  },
 };
 </script>
