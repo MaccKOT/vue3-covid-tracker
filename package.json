@@ -7,14 +7,18 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "dayjs": "^1.10.5",
     "vue": "^3.0.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^10.2.6",
+    "eslint": "^7.27.0",
+    "eslint-plugin-vue": "^7.10.0",
     "postcss": "^8.3.0",
     "tailwindcss": "^2.1.2",
-    "vite": "^2.3.4"
+    "vite": "^2.3.4",
+    "vite-svg-loader": "^2.0.2"
   }
 }
